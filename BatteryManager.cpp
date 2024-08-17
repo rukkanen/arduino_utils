@@ -1,26 +1,20 @@
 #include "BatteryManager.h"
-#include <logger.h>
+#include <Arduino.h>
+// #include "logger.h"
 
 BatteryManager::BatteryManager(int computePin, int batteryThreshold)
     : computeBatteryPin(computePin), batteryThreshold(batteryThreshold) {}
 
-int BatteryManager::getBatteryLevel()
-{
-  int batteryLevel = analogRead(batteryPin);
-  logMessage(INFO, "Battery level: " + String(batteryLevel));
-  return batteryLevel;
-}
-
 void BatteryManager::enterSleepMode()
 {
-  logMessage(INFO, "Entering sleep mode");
-  // Platform-specific sleep code here
+  // logMessage(INFO, "Entering sleep mode");
+  //  Platform-specific sleep code here
 }
 
 void BatteryManager::enterDeepSleepMode()
 {
-  logMessage(INFO, "Entering deep sleep mode");
-  // Platform-specific deep sleep code here
+  // logMessage(INFO, "Entering deep sleep mode");
+  //  Platform-specific deep sleep code here
 }
 
 void BatteryManager::checkBatteryLevel()
@@ -31,7 +25,7 @@ void BatteryManager::checkBatteryLevel()
 
   if (level < batteryThreshold)
   {
-    logMessage(WARNING, "Battery level is low, entering deep sleep mode");
+    // logMessage(WARNING, "Battery level is low, entering deep sleep mode");
     enterDeepSleepMode();
   }
 }
@@ -39,6 +33,6 @@ void BatteryManager::checkBatteryLevel()
 int BatteryManager::readBatteryLevel()
 {
   int batteryLevel = analogRead(batteryPin);
-  logMessage(INFO, "Battery level: " + String(batteryLevel));
+  // logMessage(INFO, "Battery level: " + String(batteryLevel));
   return batteryLevel;
 }
