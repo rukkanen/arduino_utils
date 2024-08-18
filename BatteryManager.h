@@ -5,34 +5,43 @@
  * Battery manager class to handle battery level monitoring
  * and low battery mode
  *
- * This class is responsible for monitoring the battery level
- * and entering low battery mode when the battery level falls
- * below a certain threshold.
- *
- * The battery level is read from an analog pin and compared
- * to a threshold value. If the battery level is below the threshold,
- * the system will enter low battery mode.
- *
- * The battery manager is used to monitor the battery level and
- * enter low battery mode when necessary.
+ * Make a separate class for each battery pack.
+
+ * The batteries in question are 18650 Li-ion batteries with 3,7V nominal voltage:
+ * 4.2V: 100% (Fully charged)
+ * 4.0V: ~85% charge
+ * 3.7V: ~50% charge
+ * 3.5V: ~25% charge
+ * 3.2V: ~0-5% charge (Considered nearly empty)
+ * <3.0V: Risk of damaging the battery if further discharged
  */
 
 class BatteryManager
 {
 public:
-  BatteryManager(int batteryPin, int batteryThreshold);
-  void checkBatteryLevel();
-  int getComputeBatteryLevel(); // Getter method for compute battery level
-  int getMotorBatteryLevel();   // This needs a dummy implementation since the motor level is fetched from ARD1 (tje current project is ARD2
-  void enterSleepMode();
-  void enterDeepSleepMode();
-
-  int computeBatteryPin;
+  /**
+   * Constructor for the BatteryManager class
+   * The batteries in question are 18650 Li-ion batteries with 3,7V nominal voltage
+   * But maybe you can use this for other liion batteries as well
+   *
+   * @param batteryPin The pin where the battery voltage is read from
+   * @param batteryThreshold The % battery level where the robot should enter deep sleep mode
+   * @param amountOfBatteries The amount of batteries in the battery pack
+   * @param theoreticalMaxVoltage The theoretical max voltage of the battery pack
+   * @return A new BatteryManager object
+   */
+  BatteryManager(int batteryPin, int batteryThreshold, int amountOfBatteries, float theoreticalMaxVoltage);
+  BatteryManager(int batteryPin);
+  float getBatteryAdjustedLevel();
 
 private:
-  int readBatteryLevel();
   int batteryPin;
   int batteryThreshold;
+  int amountOfBatteries = 2;
+  float theoreticalMaxVoltage = 4.2;
+  float getBatteryPercentage();
+  float currentVoltage;
 };
+;
 
 #endif // BATTERY_MANAGER_H
