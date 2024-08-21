@@ -8,3 +8,13 @@ breaking changes at least for a month or two from today (August, 2024).
 - Logger: A utility module for logging messages and debugging information.
 - Battery Monitor: A simple module for monitoring the battery level in a robot car project.
 
+### Battery Manager
+Make a separate intance of this class for each battery pack.
+
+My plan is to:
+- add a possibility for an interrupt pin to wake up the manager
+- to make it possible to get the manager it self to actually "manage" the battery, 
+    thus warn the main app if it's low or whatnot... 
+- This really isn't a well thought through component, but there you go...
+
+Rincewind!

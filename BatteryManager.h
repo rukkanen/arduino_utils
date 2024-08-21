@@ -5,8 +5,12 @@
  * Battery manager class to handle battery level monitoring
  * and low battery mode
  *
- * Make a separate class for each battery pack.
-
+ * Make a separate intance of this class for each battery pack.
+ *
+ * My plan is to:
+ * - add a possibility for an interrupt pin to wake up the manager
+ * - to
+ *
  * The batteries in question are 18650 Li-ion batteries with 3,7V nominal voltage:
  * 4.2V: 100% (Fully charged)
  * 4.0V: ~85% charge
@@ -33,6 +37,7 @@ public:
   BatteryManager(int batteryPin, int batteryThreshold, int amountOfBatteries, float theoreticalMaxVoltage);
   BatteryManager(int batteryPin);
   float getBatteryAdjustedLevel();
+  bool isBatteryCritical();
 
 private:
   int batteryPin;

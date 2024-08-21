@@ -28,7 +28,7 @@ float BatteryManager::getBatteryAdjustedLevel()
 
   if (batteryPercent < batteryThreshold)
   {
-    logMessage(WARNING, "Battery level is " + batteryPercent + " belov given threshold: " + String(batteryPercent) + "%");
+    logMessage(WARNING, "Battery level is " + String(batteryPercent) + " belov given threshold: " + String(batteryPercent) + "%");
   }
   return batteryPercent;
 }
@@ -83,4 +83,15 @@ float BatteryManager::getBatteryPercentage()
   logMessage(INFO, "algoritmicBatteryPercentage: " + String(algoritmicBatteryPercentage));
   // no surprise here, the linearBatteryPercentage is always going to be the one we can trust, maybe
   return linearBatteryPercentage;
+}
+
+bool BatteryManager::isBatteryCritical()
+{
+  float batteryPercent = getBatteryAdjustedLevel();
+  if (batteryPercent < 10)
+  {
+    logMessage(CRITICAL, "Battery level is critical: " + String(batteryPercent) + "%");
+    return true;
+  }
+  return false;
 }
