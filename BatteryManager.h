@@ -20,6 +20,13 @@
  * <3.0V: Risk of damaging the battery if further discharged
  */
 
+struct BatteryThresholds
+{
+  int warningThreshold;
+  int criticalThreshold;
+  int shutdownThreshold;
+};
+
 class BatteryManager
 {
 public:
@@ -38,8 +45,10 @@ public:
   BatteryManager(int batteryPin);
   float getBatteryAdjustedLevel();
   bool isBatteryCritical();
+  void setBatteryThresholds(int warningThreshold, int criticalThreshold, int shutdownThreshold);
 
 private:
+  BatteryThresholds thresholds = {25, 10, 5};
   int batteryPin;
   int batteryThreshold;
   int amountOfBatteries = 2;
