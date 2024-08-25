@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/lapanen/git/RopoCar/arduino_utils/build",
+  "command": "/usr/bin/c++ -g -Wall -Wextra -Werror -std=c11 -o CMakeFiles/lfp_a_utils.dir/BatteryManager.cpp.o -c /home/lapanen/git/RopoCar/arduino_utils/BatteryManager.cpp",
+  "file": "/home/lapanen/git/RopoCar/arduino_utils/BatteryManager.cpp"
+}
+]
