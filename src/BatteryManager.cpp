@@ -1,5 +1,5 @@
-#include "BatteryManager.h"
 #include <Arduino.h>
+#include "BatteryManager.h"
 #include "logger.h"
 
 /**
