@@ -26,6 +26,6 @@ enum LogLevel
  *
  * To configure the log level, change the value of the `logLevel` variable
  */
-void logMessage(LogLevel level, const String &message);
+void logLMessage(LogLevel level, const String &message);
 
 #endif

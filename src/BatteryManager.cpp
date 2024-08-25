@@ -2,6 +2,7 @@
 #include "BatteryManager.h"
 #include "logger.h"
 
+
 /**
  * Constructor for the BatteryManager class
  * The batteries in question are 18650 Li-ion batteries with 3,7V nominal voltage
