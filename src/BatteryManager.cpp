@@ -2,7 +2,6 @@
 #include "BatteryManager.h"
 #include "logger.h"
 
-
 /**
  * Constructor for the BatteryManager class
  * The batteries in question are 18650 Li-ion batteries with 3,7V nominal voltage
@@ -10,13 +9,13 @@
 BatteryManager::BatteryManager(int batteryPin, int batteryThreshold, int amountOfBatteries, float theoreticalMaxVoltage)
     : batteryPin(batteryPin), batteryThreshold(batteryThreshold), amountOfBatteries(amountOfBatteries), theoreticalMaxVoltage(theoreticalMaxVoltage)
 {
-  logLMessage(INFO, "Battery manager initialized");
+  Logger::log(INFO, "Battery manager initialized");
 }
 
 BatteryManager::BatteryManager(int batteryPin)
     : batteryPin(batteryPin)
 {
-  logLMessage(INFO, "Battery manager initialized");
+  Logger::log(INFO, "Battery manager initialized");
   theoreticalMaxVoltage = 4.2;
   amountOfBatteries = 2;
   batteryThreshold = 25;
@@ -29,7 +28,7 @@ float BatteryManager::getBatteryAdjustedLevel()
 
   if (batteryPercent < batteryThreshold)
   {
-    logLMessage(WARNING, "Battery level is " + String(batteryPercent) + " belov given threshold: " + String(batteryPercent) + "%");
+    Logger::log(WARNING, "Battery level is " + String(batteryPercent) + " belov given threshold: " + String(batteryPercent) + "%");
   }
   return batteryPercent;
 }
@@ -80,8 +79,8 @@ float BatteryManager::getBatteryPercentage()
   if (algoritmicBatteryPercentage < 0)
     algoritmicBatteryPercentage = 0;
 
-  logLMessage(INFO, "linearBatteryPercentage: " + String(linearBatteryPercentage));
-  logLMessage(INFO, "algoritmicBatteryPercentage: " + String(algoritmicBatteryPercentage));
+  Logger::log(INFO, "linearBatteryPercentage: " + String(linearBatteryPercentage));
+  Logger::log(INFO, "algoritmicBatteryPercentage: " + String(algoritmicBatteryPercentage));
   // no surprise here, the linearBatteryPercentage is always going to be the one we can trust, maybe
   return linearBatteryPercentage;
 }
@@ -91,7 +90,7 @@ bool BatteryManager::isBatteryCritical()
   float batteryPercent = getBatteryAdjustedLevel();
   if (batteryPercent < 10)
   {
-    logLMessage(CRITICAL, "Battery level is critical: " + String(batteryPercent) + "%");
+    Logger::log(CRITICAL, "Battery level is critical: " + String(batteryPercent) + "%");
     return true;
   }
   return false;

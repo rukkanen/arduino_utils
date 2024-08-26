@@ -1,6 +1,8 @@
 #ifndef BATTERY_MANAGER_H
 #define BATTERY_MANAGER_H
 
+#include "logger.h"
+
 /**
  * Battery manager class to handle battery level monitoring
  * and low battery mode
