@@ -17,7 +17,7 @@ enum LogLevel
   INFO,
   WARNING,
   ERROR,
-  CRITICAL
+  DEBUG
 };
 
 class Logger
