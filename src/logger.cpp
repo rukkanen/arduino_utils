@@ -14,8 +14,8 @@ void Logger::log(LogLevel level, const String &message)
   case LogLevel::ERROR:
     levelStr = "ERROR";
     break;
-  case LogLevel::CRITICAL:
-    levelStr = "CRITICAL";
+  case LogLevel::DEBUG:
+    levelStr = "DEBUG";
     break;
   default:
     levelStr = "N/A";

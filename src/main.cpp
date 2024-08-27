@@ -1,3 +1,4 @@
+#ifdef UTILS_MAIN
 #include <Arduino.h>
 #include "logger.h"
 #include "BatteryManager.h"
@@ -24,3 +25,5 @@ void loop()
 {
   // TODO: Add your loop code here
 }
+
+#endif

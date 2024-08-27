@@ -90,7 +90,7 @@ bool BatteryManager::isBatteryCritical()
   float batteryPercent = getBatteryAdjustedLevel();
   if (batteryPercent < 10)
   {
-    Logger::log(CRITICAL, "Battery level is critical: " + String(batteryPercent) + "%");
+    Logger::log(INFO, "Battery level is critical: " + String(batteryPercent) + "%");
     return true;
   }
   return false;
