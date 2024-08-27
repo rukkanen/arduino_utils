@@ -1,15 +1,14 @@
 {
     "name": "arduino_utils",
     "version": "1.0.0",
-    "description": "Utility functions for Arduino projects.",
+    "description": "Utility functions for Arduino/ESP8266/etc projects.",
     "authors": [
       {
-        "name": "Your Name",
-        "email": "your.email@example.com"
+        "name": "Lauri F-P",
+        "email": "potaskaa@proton.me"
       }
     ],
     "dependencies": {
-      "Dependency1": "^1.2.3",
-      "Dependency2": "^2.3.4"
+      "Dependency1": "Wire"
     }
   }
