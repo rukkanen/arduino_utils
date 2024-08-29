@@ -22,8 +22,8 @@ LCD1602IIC::LCD1602IIC(uint8_t lcdAddr, uint8_t lcdCols, uint8_t lcdRows)
  */
 void LCD1602IIC::begin()
 {
-  lcd.begin();     // Initialize the LCD screen
-  lcd.backlight(); // Turn on the backlight
+  lcd.begin(cols, rows); // Initialize the LCD screen
+  lcd.backlight();       // Turn on the backlight
 }
 
 /**
