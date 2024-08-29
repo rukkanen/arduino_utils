@@ -1,6 +1,6 @@
 {
     "name": "arduino_utils",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Utility functions for Arduino/ESP8266/etc projects.",
     "authors": [
       {
