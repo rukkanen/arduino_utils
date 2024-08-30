@@ -1,5 +1,9 @@
 #include "SRAM_I2C.h"
+#ifdef ESP8266
 #include <algorithm>
+#else
+#include <Arduino.h>
+#endif
 
 /**
  * @brief Constructor for the SRAM_I2C class.

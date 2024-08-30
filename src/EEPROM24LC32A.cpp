@@ -1,6 +1,10 @@
 #include "EEPROM24LC32A.h"
+#ifdef ESP8266
 #include <algorithm>
-
+// NodeMCU-specific code
+#elif defined(ARDUINO)
+#include <Arduino.h>
+#endif
 /**
  * @brief Constructor for the EEPROM24LC32A class.
  *
