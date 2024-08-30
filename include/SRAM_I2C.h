@@ -1,13 +1,9 @@
+#ifdef ESP8266
 #ifndef SRAM_I2C_H
 #define SRAM_I2C_H
 
 #include <Wire.h> // Include the Wire library to facilitate I2C communication
-#ifdef ESP8266
 #include <algorithm>
-// NodeMCU-specific code
-#else
-#include <EEPROM.h> // Use built-in EEPROM library for Arduino
-#endif
 
 /**
  * @class SRAM_I2C
@@ -118,3 +114,4 @@ private:
 };
 
 #endif // SRAM_I2C_H
+#endif // ESP8266

@@ -7,14 +7,16 @@
 #include "SRAM_I2C.h"
 
 BatteryManager batteryManager(0);
-EEPROM24LC32A eeprom;
-SRAM_I2C sram(0x50);
 ShiftRegister74HC595 shiftRegister(2, 3, 4);
+#ifdef ESP8266
+SRAM_I2C sram(0x50);
+EEPROM24LC32A eeprom;
+#endif
 
 void setup()
 {
   batteryManager = BatteryManager(0);
-  eeprom = EEPROM24LC32A();
+  // eeprom = EEPROM24LC32A();
   shiftRegister = ShiftRegister74HC595(2, 3, 4);
 
   // log = &Logger::gTuossaetInstance();

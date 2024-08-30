@@ -1,3 +1,7 @@
+// Need to comment this out due to arduino, for now.
+// I'm sorry...
+#ifdef ESP8266
+
 #include "SRAM_I2C.h"
 #ifdef ESP8266
 #include <algorithm>
@@ -177,3 +181,5 @@ void SRAM_I2C::_sendMemoryAddress(uint16_t memoryAddress)
   // Send the least significant byte (LSB) of the memory address
   Wire.write(memoryAddress & 0xFF);
 }
+
+#endif

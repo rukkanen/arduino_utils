@@ -1,3 +1,7 @@
+// Need to comment this out due to arduino, for now.
+// I'm sorry...
+#ifdef ESP8266
+
 #include "EEPROM24LC32A.h"
 #ifdef ESP8266
 #include <algorithm>
@@ -197,3 +201,4 @@ void EEPROM24LC32A::_waitForWrite()
     }
   }
 }
+#endif // The header

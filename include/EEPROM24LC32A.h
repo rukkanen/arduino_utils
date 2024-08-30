@@ -1,3 +1,6 @@
+// Need to comment this out due to arduino, for now.
+// I'm sorry...
+#ifdef ESP8266
 #ifndef EEPROM24LC32A_H
 #define EEPROM24LC32A_H
 
@@ -87,3 +90,4 @@ private:
 };
 
 #endif // EEPROM24LC32A_H
+#endif // ESP8266
