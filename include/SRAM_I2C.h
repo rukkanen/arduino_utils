@@ -1,4 +1,4 @@
-#ifdef ESP8266
+//#ifdef ESP8266
 #ifndef SRAM_I2C_H
 #define SRAM_I2C_H
 
@@ -114,4 +114,4 @@ private:
 };
 
 #endif // SRAM_I2C_H
-#endif // ESP8266
+//#endif // ESP8266

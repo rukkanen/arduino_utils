@@ -1,6 +1,6 @@
 // Need to comment this out due to arduino, for now.
 // I'm sorry...
-#ifdef ESP8266
+//#ifdef ESP8266
 
 #include "SRAM_I2C.h"
 #ifdef ESP8266
@@ -182,4 +182,4 @@ void SRAM_I2C::_sendMemoryAddress(uint16_t memoryAddress)
   Wire.write(memoryAddress & 0xFF);
 }
 
-#endif
+//#endif
