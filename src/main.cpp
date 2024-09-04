@@ -4,15 +4,9 @@
 #include "BatteryManager.h"
 #include "EEPROM24LC32A.h"
 #include "ShiftRegister74HC595.h"
-#include "SRAM_I2C.h"
 
 BatteryManager batteryManager(0);
 ShiftRegister74HC595 shiftRegister(2, 3, 4);
-#ifdef ESP8266
-SRAM_I2C sram(0x50);
-EEPROM24LC32A eeprom;
-#endif
-
 void setup()
 {
   batteryManager = BatteryManager(0);

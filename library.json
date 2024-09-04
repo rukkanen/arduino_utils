@@ -1,14 +1,42 @@
 {
-    "name": "arduino_utils",
-    "version": "0.1.0",
-    "description": "Utility functions for Arduino/ESP8266/etc projects.",
-    "authors": [
-      {
-        "name": "Lauri F-P",
-        "email": "potaskaa@proton.me"
-      }
-    ],
-    "dependencies": {
-      "Dependency1": "Wire"
+  "name": "arduino_utils",
+  "version": "1.0.0",
+  "description": "A description of your library",
+  "keywords": [
+    "arduino",
+    "esp8266",
+    "avr",
+    "lcd",
+    "motor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rukkane/arduino_utils.git"
+  },
+  "authors": [
+    {
+      "name": "Your Name",
+      "email": "your.email@example.com",
+      "maintainer": true
     }
+  ],
+  "frameworks": "arduino",
+  "platforms": [
+    "espressif8266",
+    "atmelavr"
+  ],
+  "dependencies": {
+    "google/googletest": "*",
+    "Wire": "*",
+    "LiquidCrystal_I2C": "*",
+    "adafruit/Adafruit Motor Shield library": "*",
+    "Arduino": "*"
+  },
+  "build": {
+    "flags": [
+      "-Iinclude",
+      "-Itest",
+      "-DUTILS_MAIN"
+    ]
   }
+}

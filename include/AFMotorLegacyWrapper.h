@@ -1,6 +1,8 @@
 #ifndef AFMOTORLEGACYWRAPPER_H
 #define AFMOTORLEGACYWRAPPER_H
 
+#ifndef ESP8266
+
 #include <AFMotor.h>
 
 class AFMotorLegacyWrapper
@@ -12,12 +14,12 @@ private:
   int accelerationStep;
   unsigned long accelerationCycleLength;
   int irPin[4];
-  volatile unsigned long encoderCount[4];
+  static volatile unsigned long encoderCount[4]; // Declare encoderCount here
 
-  static void IRAM_ATTR encoderISR0();
-  static void IRAM_ATTR encoderISR1();
-  static void IRAM_ATTR encoderISR2();
-  static void IRAM_ATTR encoderISR3();
+  static void encoderISR0(); // Declare ISRs
+  static void encoderISR1();
+  static void encoderISR2();
+  static void encoderISR3();
 
 public:
   // Constructor
@@ -47,4 +49,5 @@ public:
   void setSlowAcceleration();
 };
 
+#endif
 #endif
