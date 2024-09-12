@@ -1,7 +1,7 @@
 {
   "name": "arduino_utils",
   "version": "1.0.0",
-  "description": "A description of your library",
+  "description": "A general utils lib to use in my own projects. If it's beneficial for other, awesome. But I'm not a horribly good dev, so I'm sorry if it causes problems for you.",
   "keywords": [
     "arduino",
     "esp8266",
@@ -15,8 +15,8 @@
   },
   "authors": [
     {
-      "name": "Your Name",
-      "email": "your.email@example.com",
+      "name": "lauri",
+      "email": "potaskaa@proton.me",
       "maintainer": true
     }
   ],
@@ -26,7 +26,6 @@
     "atmelavr"
   ],
   "dependencies": {
-    "google/googletest": "*",
     "Wire": "*",
     "LiquidCrystal_I2C": "*",
     "adafruit/Adafruit Motor Shield library": "*",
