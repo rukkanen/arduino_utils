@@ -26,6 +26,7 @@
     "atmelavr"
   ],
   "dependencies": {
+    "SPI": "*",
     "Wire": "*",
     "LiquidCrystal_I2C": "*",
     "adafruit/Adafruit Motor Shield library": "*",
