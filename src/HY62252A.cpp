@@ -1,25 +1,32 @@
 #include "HY62252A.h"
 
-// Constructor: Initialize with address, data, and control pins
+// Constructor: Initialize with direct GPIO control for address and data pins
 HY62252A::HY62252A(uint8_t *addr_pins, uint8_t *data_pins, uint8_t ce_pin, uint8_t oe_pin, uint8_t we_pin)
+    : _addr_pins(addr_pins), _data_pins(data_pins), _ce_pin(ce_pin), _oe_pin(oe_pin), _we_pin(we_pin)
 {
-  _addr_pins = addr_pins;
-  _data_pins = data_pins;
-  _ce_pin = ce_pin;
-  _oe_pin = oe_pin;
-  _we_pin = we_pin;
+  _shiftRegister = nullptr; // Not using shift register
 }
 
-// Initialize the GPIO pins for address, data, and control lines
+// Constructor: Initialize with shift register for address pins
+HY62252A::HY62252A(ShiftRegister74HC595 *shiftRegister, uint8_t *data_pins, uint8_t ce_pin, uint8_t oe_pin, uint8_t we_pin, uint8_t addr_bits_in_shift_register)
+    : _shiftRegister(shiftRegister), _data_pins(data_pins), _ce_pin(ce_pin), _oe_pin(oe_pin), _we_pin(we_pin), _addr_bits_in_shift_register(addr_bits_in_shift_register)
+{
+  _addr_pins = nullptr; // Address pins will be handled by shift register
+}
+
+// Initialize GPIO pins or shift register
 void HY62252A::begin()
 {
-  // Set address pins as output
-  for (int i = 0; i < 15; i++)
+  if (_addr_pins)
   {
-    pinMode(_addr_pins[i], OUTPUT);
+    // If using direct GPIO control, set address pins as outputs
+    for (int i = 0; i < 15; i++)
+    {
+      pinMode(_addr_pins[i], OUTPUT);
+    }
   }
 
-  // Set data pins as input initially (for reading)
+  // Set data pins as inputs initially (for reading)
   setDataBusMode(INPUT);
 
   // Set control pins as output
@@ -31,14 +38,35 @@ void HY62252A::begin()
   digitalWrite(_ce_pin, HIGH); // Chip disabled
   digitalWrite(_oe_pin, HIGH); // Output disabled
   digitalWrite(_we_pin, HIGH); // Write disabled
+
+  if (_shiftRegister)
+  {
+    // Initialize the shift register if used
+    _shiftRegister->clearAll();
+    _shiftRegister->updateRegisters();
+  }
 }
 
-// Set the address on the address bus
+// Set the address on the address bus (either GPIO or shift register)
 void HY62252A::setAddress(uint16_t address)
 {
-  for (int i = 0; i < 15; i++)
+  if (_shiftRegister)
   {
-    digitalWrite(_addr_pins[i], (address >> i) & 1);
+    // Use shift register for the first N address bits
+    for (uint8_t i = 0; i < _addr_bits_in_shift_register; i++)
+    {
+      _shiftRegister->setPin(i, (address >> i) & 1);
+    }
+    _shiftRegister->updateRegisters();
+  }
+
+  if (_addr_pins)
+  {
+    // Use direct GPIO control for the remaining address bits
+    for (int i = 0; i < 15; i++)
+    {
+      digitalWrite(_addr_pins[i], (address >> i) & 1);
+    }
   }
 }
 
@@ -74,7 +102,7 @@ uint8_t HY62252A::readDataBus()
 // Write a byte to the SRAM
 void HY62252A::writeByte(uint16_t address, uint8_t data)
 {
-  // Set address
+  // Set the address
   setAddress(address);
 
   // Set data pins as output
@@ -96,7 +124,7 @@ void HY62252A::writeByte(uint16_t address, uint8_t data)
 // Read a byte from the SRAM
 uint8_t HY62252A::readByte(uint16_t address)
 {
-  // Set address
+  // Set the address
   setAddress(address);
 
   // Set data pins as input
