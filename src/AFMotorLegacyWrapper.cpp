@@ -1,4 +1,4 @@
-#ifndef ESP8266
+#ifdef UNO
 
 #include "AFMotorLegacyWrapper.h"
 #include <Arduino.h>

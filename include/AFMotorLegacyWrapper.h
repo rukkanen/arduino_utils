@@ -1,7 +1,7 @@
 #ifndef AFMOTORLEGACYWRAPPER_H
 #define AFMOTORLEGACYWRAPPER_H
 
-#ifndef ESP8266
+#ifdef UNO
 
 #include <AFMotor.h>
 
