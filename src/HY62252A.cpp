@@ -43,6 +43,7 @@ HY62252A::HY62252A(ShiftRegister74HC595 *shiftRegister1, ShiftRegister74HC595 *s
  */
 void HY62252A::begin()
 {
+  Logger::log(TRACE, "begin()");
   if (_addr_pins)
   {
     // Initialize address pins if using GPIO
@@ -68,11 +69,13 @@ void HY62252A::begin()
   // Initialize shift registers if used
   if (_shiftRegister1)
   {
+    Logger::log(TRACE, "Initializing shift register 1");
     _shiftRegister1->clearAll();
     _shiftRegister1->updateRegisters();
   }
   if (_shiftRegister2)
   {
+    Logger::log(TRACE, "Initializing shift register 2");
     _shiftRegister2->clearAll();
     _shiftRegister2->updateRegisters();
   }
@@ -85,9 +88,11 @@ void HY62252A::begin()
  */
 void HY62252A::setAddress(uint16_t address)
 {
+  Logger::log(TRACE, "setAddress(): " + String(address));
   // Use shift registers for address lines
   if (_shiftRegister1)
   {
+    Logger::log(TRACE, "Setting address using shift register 1");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register1; i++)
     {
       _shiftRegister1->setPin(i, (address >> i) & 1);
@@ -97,6 +102,7 @@ void HY62252A::setAddress(uint16_t address)
 
   if (_shiftRegister2)
   {
+    Logger::log(TRACE, "Setting address using shift register 2");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register2; i++)
     {
       _shiftRegister2->setPin(i, (address >> (_addr_bits_in_shift_register1 + i)) & 1);
@@ -107,6 +113,7 @@ void HY62252A::setAddress(uint16_t address)
   // Use direct GPIO if no shift registers
   if (_addr_pins)
   {
+    Logger::log(TRACE, "Setting address using GPIO pins, no shift registers");
     for (int i = 0; i < 15; i++)
     {
       digitalWrite(_addr_pins[i], (address >> i) & 1);
@@ -121,6 +128,7 @@ void HY62252A::setAddress(uint16_t address)
  */
 void HY62252A::setDataBusMode(bool mode)
 {
+  Logger::log(TRACE, "setDataBusMode(): " + String(mode));
   for (int i = 0; i < 8; i++)
   {
     pinMode(_data_pins[i], mode);
@@ -134,6 +142,7 @@ void HY62252A::setDataBusMode(bool mode)
  */
 void HY62252A::writeDataBus(uint8_t data)
 {
+  Logger::log(TRACE, "writeDataBus(): " + String(data));
   for (int i = 0; i < 8; i++)
   {
     digitalWrite(_data_pins[i], (data >> i) & 1);
@@ -147,6 +156,7 @@ void HY62252A::writeDataBus(uint8_t data)
  */
 uint8_t HY62252A::readDataBus()
 {
+  Logger::log(TRACE, "readDataBus()");
   uint8_t data = 0;
   for (int i = 0; i < 8; i++)
   {
@@ -163,6 +173,7 @@ uint8_t HY62252A::readDataBus()
  */
 void HY62252A::writeByte(uint16_t address, uint8_t data)
 {
+  Logger::log(TRACE, "writeByte(): " + String(data) + " to address: " + String(address));
   setAddress(address);
   setDataBusMode(OUTPUT);
   writeDataBus(data);
@@ -182,6 +193,7 @@ void HY62252A::writeByte(uint16_t address, uint8_t data)
  */
 uint8_t HY62252A::readByte(uint16_t address)
 {
+  Logger::log(TRACE, "readByte() from address: " + String(address));
   setAddress(address);
   setDataBusMode(INPUT);
 
@@ -204,6 +216,7 @@ uint8_t HY62252A::readByte(uint16_t address)
  */
 void HY62252A::writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t length)
 {
+  Logger::log(TRACE, "Writing block of length: " + String(length) + " to address: " + String(startAddress));
   for (uint16_t i = 0; i < length; i++)
   {
     writeByte(startAddress + i, data[i]);
@@ -237,6 +250,7 @@ void HY62252A::storeKeyValue(uint16_t startAddress, const char *key, const char 
 {
   writeBlock(startAddress, (uint8_t *)key, 4);        // Store key
   writeBlock(startAddress + 4, (uint8_t *)value, 16); // Store value
+  Logger::log(TRACE, "Key: " + String(key) + ", Value: " + String(value) + " stored at address: " + String(startAddress));
 }
 
 /**
@@ -255,12 +269,15 @@ bool HY62252A::getValueForKey(const char *keyToFind, char *valueBuffer, uint16_t
   for (uint16_t addr = startAddress; addr < endAddress; addr += 20)
   {                                           // Each key-value pair occupies 20 bytes
     readBlock(addr, (uint8_t *)keyBuffer, 4); // Read key
-    Logger::log(TRACE, "Key: " + String(keyBuffer));
+    Logger::log(TRACE, "Read key: " + String(keyBuffer));
     if (strncmp(keyBuffer, keyToFind, 4) == 0)
     {
+      Logger::log(TRACE, "Key match found at address: " + String(addr));
       readBlock(addr + 4, (uint8_t *)valueBuffer, 16); // Read value
       return true;                                     // Key found
     }
+    Logger::log(TRACE, "Key mismatch, continuing search...");
   }
+  Logger::log(TRACE, "Key not found in range. Start: " + String(startAddress) + ", End: " + String(endAddress));
   return false; // Key not found
 }
