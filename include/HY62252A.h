@@ -4,6 +4,16 @@
 #include <Arduino.h>
 #include "ShiftRegister74HC595.h"
 
+/*
+Examples
+
+uint8_t data[] = {0x10, 0x20, 0x30, 0x40}; // Example data
+sram.writeBlock(0x0000, data, sizeof(data)); // Write data block to SRAM
+
+uint8_t buffer[4]; // Buffer to store read data
+sram.readBlock(0x0000, buffer, sizeof(buffer)); // Read data back into buffer
+*/
+
 class HY62252A
 {
 public:
@@ -21,6 +31,17 @@ public:
 
   // Read a byte from SRAM from a specified address
   uint8_t readByte(uint16_t address);
+
+  // Write a block of data to SRAM starting at a given address
+  void writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t length);
+
+  // Read a block of data from SRAM starting at a given address
+  void readBlock(uint16_t startAddress, uint8_t *buffer, uint16_t length);
+
+  // Key-value operations
+  void storeKeyValue(uint16_t startAddress, const char *key, const char *value);
+  void getKeyValue(uint16_t startAddress, char *keyBuffer, char *valueBuffer);
+  int16_t findKey(const char *keyToFind, uint16_t startAddress, uint16_t endAddress);
 
 private:
   // Address and data pin arrays (for direct GPIO usage)

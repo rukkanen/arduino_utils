@@ -144,3 +144,59 @@ uint8_t HY62252A::readByte(uint16_t address)
 
   return data;
 }
+
+void HY62252A::writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t length)
+{
+  for (uint16_t i = 0; i < length; i++)
+  {
+    writeByte(startAddress + i, data[i]);
+  }
+}
+
+void HY62252A::readBlock(uint16_t startAddress, uint8_t *buffer, uint16_t length)
+{
+  for (uint16_t i = 0; i < length; i++)
+  {
+    buffer[i] = readByte(startAddress + i);
+  }
+}
+
+// Store a key-value pair at a specified SRAM address
+void HY62252A::storeKeyValue(uint16_t startAddress, const char *key, const char *value)
+{
+  // Store the 4-byte key at the startAddress
+  writeBlock(startAddress, (uint8_t *)key, 4);
+
+  // Store the 16-byte value immediately after the key
+  writeBlock(startAddress + 4, (uint8_t *)value, 16);
+}
+
+// Retrieve a key-value pair from a specified SRAM address
+void HY62252A::getKeyValue(uint16_t startAddress, char *keyBuffer, char *valueBuffer)
+{
+  // Read the 4-byte key
+  readBlock(startAddress, (uint8_t *)keyBuffer, 4);
+
+  // Read the 16-byte value
+  readBlock(startAddress + 4, (uint8_t *)valueBuffer, 16);
+}
+
+// Search for a key and return its address or -1 if not found
+int16_t HY62252A::findKey(const char *keyToFind, uint16_t startAddress, uint16_t endAddress)
+{
+  char keyBuffer[5] = {0}; // Buffer to hold the key read from SRAM
+
+  for (uint16_t addr = startAddress; addr < endAddress; addr += 20)
+  { // 20 bytes per key-value pair
+    // Read the 4-byte key from memory
+    readBlock(addr, (uint8_t *)keyBuffer, 4);
+
+    // Compare the read key with the key we're searching for
+    if (strncmp(keyBuffer, keyToFind, 4) == 0)
+    {
+      return addr; // Key found, return the address
+    }
+  }
+
+  return -1; // Return -1 if the key is not found
+}
