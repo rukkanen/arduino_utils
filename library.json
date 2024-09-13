@@ -29,13 +29,11 @@
     "SPI": "*",
     "Wire": "*",
     "LiquidCrystal_I2C": "*",
-    "adafruit/Adafruit Motor Shield library": "*",
     "Arduino": "*"
   },
   "build": {
     "flags": [
       "-Iinclude",
-      "-Itest",
       "-DUTILS_MAIN"
     ]
   }
