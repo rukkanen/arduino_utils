@@ -8,17 +8,22 @@
  * INFO: Informational messages
  * WARNING: Warning messages
  * ERROR: Error messages
- * CRITICAL: Not just an error, but something which should stop operation
+ * TRACE: Absolutely everything
  *
  * To configure the log level, change the value of the `logLevel` variable
  */
 enum LogLevel
 {
-  INFO,
-  WARNING,
-  ERROR,
-  DEBUG
+  ERROR = 0,
+  WARNING = 1,
+  INFO = 2,
+  TRACE = 3
 };
+
+// Check if LOG_LEVEL is defined, if not, set a default value
+#ifndef LOG_LEVEL
+#define LOG_LEVEL INFO
+#endif
 
 class Logger
 {
@@ -32,6 +37,15 @@ public:
    * To configure the log level, change the value of the `logLevel` variable
    */
   static void log(LogLevel level, const String &message);
+  static void warning(const String &message);
+  static void error(const String &message);
+  static void info(const String &message);
+  static void trace(const String &message);
+
+  static void setLogLevel(LogLevel newLevel);
+
+private:
+  static LogLevel currentLogLevel;
 };
 
 #endif

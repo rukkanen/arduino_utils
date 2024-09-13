@@ -1,4 +1,5 @@
 #include "HY62252A.h"
+#include "logger.h"
 
 /**
  * Constructor for direct GPIO control of address and data lines.
@@ -254,6 +255,7 @@ bool HY62252A::getValueForKey(const char *keyToFind, char *valueBuffer, uint16_t
   for (uint16_t addr = startAddress; addr < endAddress; addr += 20)
   {                                           // Each key-value pair occupies 20 bytes
     readBlock(addr, (uint8_t *)keyBuffer, 4); // Read key
+    Logger::log(TRACE, "Key: " + String(keyBuffer));
     if (strncmp(keyBuffer, keyToFind, 4) == 0)
     {
       readBlock(addr + 4, (uint8_t *)valueBuffer, 16); // Read value
