@@ -42,6 +42,7 @@ public:
   static void error(const String &message);
   static void info(const String &message);
   static void trace(const String &message);
+  static void ultra(const String &message);
 
   static void setLogLevel(LogLevel newLevel);
 
