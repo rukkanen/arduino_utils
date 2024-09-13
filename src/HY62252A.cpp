@@ -200,3 +200,16 @@ int16_t HY62252A::findKey(const char *keyToFind, uint16_t startAddress, uint16_t
 
   return -1; // Return -1 if the key is not found
 }
+
+bool HY62252A::getValueFor(const char *keyToFind, char *valueBuffer, uint16_t startAddress, uint16_t endAddress)
+{
+  int16_t address = findKey(keyToFind, startAddress, endAddress);
+
+  if (address != -1)
+  {
+    getKeyValue(address, nullptr, valueBuffer); // Retrieve the value only
+    return true;                                // Key found, value retrieved
+  }
+
+  return false; // Key not found
+}
