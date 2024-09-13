@@ -20,6 +20,9 @@ void Logger::log(LogLevel level, const String &message)
     case LogLevel::TRACE:
       levelStr = "TRACE";
       break;
+    case LogLevel::ULTRA:
+      levelStr = "ULTRA";
+      break;
     default:
       levelStr = "UNKNOWN";
     }

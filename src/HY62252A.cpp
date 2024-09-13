@@ -88,11 +88,11 @@ void HY62252A::begin()
  */
 void HY62252A::setAddress(uint16_t address)
 {
-  Logger::log(TRACE, "setAddress(): " + String(address));
+  Logger::log(ULTRA, "setAddress(): " + String(address));
   // Use shift registers for address lines
   if (_shiftRegister1)
   {
-    Logger::log(TRACE, "Setting address using shift register 1");
+    Logger::log(ULTRA, "Setting address using shift register 1");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register1; i++)
     {
       _shiftRegister1->setPin(i, (address >> i) & 1);
@@ -102,7 +102,7 @@ void HY62252A::setAddress(uint16_t address)
 
   if (_shiftRegister2)
   {
-    Logger::log(TRACE, "Setting address using shift register 2");
+    Logger::log(ULTRA, "Setting address using shift register 2");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register2; i++)
     {
       _shiftRegister2->setPin(i, (address >> (_addr_bits_in_shift_register1 + i)) & 1);
@@ -113,7 +113,7 @@ void HY62252A::setAddress(uint16_t address)
   // Use direct GPIO if no shift registers
   if (_addr_pins)
   {
-    Logger::log(TRACE, "Setting address using GPIO pins, no shift registers");
+    Logger::log(ULTRA, "Setting address using GPIO pins, no shift registers");
     for (int i = 0; i < 15; i++)
     {
       digitalWrite(_addr_pins[i], (address >> i) & 1);
@@ -128,7 +128,7 @@ void HY62252A::setAddress(uint16_t address)
  */
 void HY62252A::setDataBusMode(bool mode)
 {
-  Logger::log(TRACE, "setDataBusMode(): " + String(mode));
+  Logger::log(ULTRA, "setDataBusMode(): " + String(mode));
   for (int i = 0; i < 8; i++)
   {
     pinMode(_data_pins[i], mode);
@@ -142,7 +142,7 @@ void HY62252A::setDataBusMode(bool mode)
  */
 void HY62252A::writeDataBus(uint8_t data)
 {
-  Logger::log(TRACE, "writeDataBus(): " + String(data));
+  Logger::log(ULTRA, "writeDataBus(): " + String(data));
   for (int i = 0; i < 8; i++)
   {
     digitalWrite(_data_pins[i], (data >> i) & 1);
@@ -156,7 +156,7 @@ void HY62252A::writeDataBus(uint8_t data)
  */
 uint8_t HY62252A::readDataBus()
 {
-  Logger::log(TRACE, "readDataBus()");
+  Logger::log(ULTRA, "readDataBus()");
   uint8_t data = 0;
   for (int i = 0; i < 8; i++)
   {
@@ -173,7 +173,7 @@ uint8_t HY62252A::readDataBus()
  */
 void HY62252A::writeByte(uint16_t address, uint8_t data)
 {
-  Logger::log(TRACE, "writeByte(): " + String(data) + " to address: " + String(address));
+  Logger::log(ULTRA, "writeByte(): " + String(data) + " to address: " + String(address));
   setAddress(address);
   setDataBusMode(OUTPUT);
   writeDataBus(data);
@@ -193,7 +193,7 @@ void HY62252A::writeByte(uint16_t address, uint8_t data)
  */
 uint8_t HY62252A::readByte(uint16_t address)
 {
-  Logger::log(TRACE, "readByte() from address: " + String(address));
+  Logger::log(ULTRA, "readByte() from address: " + String(address));
   setAddress(address);
   setDataBusMode(INPUT);
 
@@ -232,6 +232,7 @@ void HY62252A::writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t l
  */
 void HY62252A::readBlock(uint16_t startAddress, uint8_t *buffer, uint16_t length)
 {
+  Logger::log(TRACE, "Reading block of length: " + String(length) + " from address: " + String(startAddress));
   for (uint16_t i = 0; i < length; i++)
   {
     buffer[i] = readByte(startAddress + i);

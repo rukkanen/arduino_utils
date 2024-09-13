@@ -17,7 +17,8 @@ enum LogLevel
   ERROR = 0,
   WARNING = 1,
   INFO = 2,
-  TRACE = 3
+  TRACE = 3,
+  ULTRA = 4
 };
 
 // Check if LOG_LEVEL is defined, if not, set a default value
