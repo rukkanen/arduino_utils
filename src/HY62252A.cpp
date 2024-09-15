@@ -43,42 +43,42 @@ HY62252A::HY62252A(ShiftRegister74HC595 *shiftRegister1, ShiftRegister74HC595 *s
  */
 void HY62252A::begin()
 {
-  Logger::log(TRACE, "begin()");
-  if (_addr_pins)
+  // Initialize address and data pins or shift registers
+  if (_shiftRegister1 && _shiftRegister2)
   {
-    // Initialize address pins if using GPIO
+    Logger::log(TRACE, "Initializing with shift registers...");
+    _shiftRegister1->clearAll();
+    _shiftRegister2->clearAll();
+    _shiftRegister1->updateRegisters();
+    _shiftRegister2->updateRegisters();
+  }
+  else if (_addr_pins)
+  {
+    Logger::log(TRACE, "Initializing with GPIO pins...");
+    // Set GPIO address pins as output if not using shift registers
     for (int i = 0; i < 15; i++)
     {
       pinMode(_addr_pins[i], OUTPUT);
     }
   }
+  else
+  {
+    Logger::log(ERROR, "No shift registers or GPIO pins found for address!");
+    return;
+  }
 
-  // Initialize data pins (start as inputs)
+  // Set data bus to input initially for reading
   setDataBusMode(INPUT);
 
-  // Initialize control pins
+  // Set control pins as output
   pinMode(_ce_pin, OUTPUT);
   pinMode(_oe_pin, OUTPUT);
   pinMode(_we_pin, OUTPUT);
 
-  // Default state: chip disabled, output disabled, write disabled
-  digitalWrite(_ce_pin, HIGH);
-  digitalWrite(_oe_pin, HIGH);
-  digitalWrite(_we_pin, HIGH);
-
-  // Initialize shift registers if used
-  if (_shiftRegister1)
-  {
-    Logger::log(TRACE, "Initializing shift register 1");
-    _shiftRegister1->clearAll();
-    _shiftRegister1->updateRegisters();
-  }
-  if (_shiftRegister2)
-  {
-    Logger::log(TRACE, "Initializing shift register 2");
-    _shiftRegister2->clearAll();
-    _shiftRegister2->updateRegisters();
-  }
+  // Set default states for control signals
+  digitalWrite(_ce_pin, HIGH); // Disable chip
+  digitalWrite(_oe_pin, HIGH); // Disable output
+  digitalWrite(_we_pin, HIGH); // Disable write
 }
 
 /**
@@ -88,37 +88,35 @@ void HY62252A::begin()
  */
 void HY62252A::setAddress(uint16_t address)
 {
-  Logger::log(ULTRA, "setAddress(): " + String(address));
+  Logger::log(TRACE, "setAddress(): " + String(address));
+
   // Use shift registers for address lines
   if (_shiftRegister1)
   {
-    Logger::log(ULTRA, "Setting address using shift register 1");
+    Logger::log(TRACE, "Setting address using shift register 1");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register1; i++)
     {
-      _shiftRegister1->setPin(i, (address >> i) & 1);
+      bool bitValue = (address >> i) & 1;
+      Logger::trace("Shift Register 1 Pin " + String(i) + ": " + String(bitValue));
+      _shiftRegister1->setPin(i, bitValue);
     }
     _shiftRegister1->updateRegisters();
   }
 
   if (_shiftRegister2)
   {
-    Logger::log(ULTRA, "Setting address using shift register 2");
+    Logger::log(TRACE, "Setting address using shift register 2");
     for (uint8_t i = 0; i < _addr_bits_in_shift_register2; i++)
     {
-      _shiftRegister2->setPin(i, (address >> (_addr_bits_in_shift_register1 + i)) & 1);
+      bool bitValue = (address >> (_addr_bits_in_shift_register1 + i)) & 1;
+      Logger::trace("Shift Register 2 Pin " + String(i) + ": " + String(bitValue));
+      _shiftRegister2->setPin(i, bitValue);
     }
     _shiftRegister2->updateRegisters();
   }
 
-  // Use direct GPIO if no shift registers
-  if (_addr_pins)
-  {
-    Logger::log(ULTRA, "Setting address using GPIO pins, no shift registers");
-    for (int i = 0; i < 15; i++)
-    {
-      digitalWrite(_addr_pins[i], (address >> i) & 1);
-    }
-  }
+  // Optional delay to ensure everything has time to settle
+  delayMicroseconds(5);
 }
 
 /**
@@ -156,7 +154,7 @@ void HY62252A::writeDataBus(uint8_t data)
  */
 uint8_t HY62252A::readDataBus()
 {
-  Logger::log(ULTRA, "readDataBus()");
+  Logger::log(ULTRA, "HY622 wrapper: readDataBus()");
   uint8_t data = 0;
   for (int i = 0; i < 8; i++)
   {
@@ -173,16 +171,27 @@ uint8_t HY62252A::readDataBus()
  */
 void HY62252A::writeByte(uint16_t address, uint8_t data)
 {
-  Logger::log(ULTRA, "writeByte(): " + String(data) + " to address: " + String(address));
+  Logger::trace("HY622 wrapper: writeByte(): " + String(data) + " to address: " + String(address));
   setAddress(address);
   setDataBusMode(OUTPUT);
   writeDataBus(data);
 
   digitalWrite(_ce_pin, LOW);
   digitalWrite(_we_pin, LOW);
-  delayMicroseconds(1);
+  delayMicroseconds(5);
   digitalWrite(_we_pin, HIGH);
   digitalWrite(_ce_pin, HIGH);
+  // #if LOG_LEVEL >= TRACE
+  uint8_t redData = readByte(address);
+  if (redData == data)
+  {
+    Logger::trace("------------------------------------------------HY622 wrapper: Data match: " + String(data));
+  }
+  else
+  {
+    Logger::trace("----------------HY622 wrapper: Data mismatch: " + String(data) + " != " + String(redData));
+  }
+  // #endif
 }
 
 /**
@@ -193,13 +202,13 @@ void HY62252A::writeByte(uint16_t address, uint8_t data)
  */
 uint8_t HY62252A::readByte(uint16_t address)
 {
-  Logger::log(ULTRA, "readByte() from address: " + String(address));
+  Logger::trace("HY622 wrapper: readByte() from address: " + String(address));
   setAddress(address);
   setDataBusMode(INPUT);
 
   digitalWrite(_ce_pin, LOW);
   digitalWrite(_oe_pin, LOW);
-  delayMicroseconds(1);
+  delayMicroseconds(5);
   uint8_t data = readDataBus();
   digitalWrite(_oe_pin, HIGH);
   digitalWrite(_ce_pin, HIGH);
@@ -216,7 +225,7 @@ uint8_t HY62252A::readByte(uint16_t address)
  */
 void HY62252A::writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t length)
 {
-  Logger::log(TRACE, "Writing block of length: " + String(length) + " to address: " + String(startAddress));
+  Logger::trace("Writing block of length: " + String(length) + " to address: " + String(startAddress));
   for (uint16_t i = 0; i < length; i++)
   {
     writeByte(startAddress + i, data[i]);
@@ -232,7 +241,7 @@ void HY62252A::writeBlock(uint16_t startAddress, const uint8_t *data, uint16_t l
  */
 void HY62252A::readBlock(uint16_t startAddress, uint8_t *buffer, uint16_t length)
 {
-  Logger::log(TRACE, "Reading block of length: " + String(length) + " from address: " + String(startAddress));
+  Logger::trace("Reading block of length: " + String(length) + " from address: " + String(startAddress));
   for (uint16_t i = 0; i < length; i++)
   {
     buffer[i] = readByte(startAddress + i);
@@ -251,7 +260,7 @@ void HY62252A::storeKeyValue(uint16_t startAddress, const char *key, const char 
 {
   writeBlock(startAddress, (uint8_t *)key, 4);        // Store key
   writeBlock(startAddress + 4, (uint8_t *)value, 16); // Store value
-  Logger::log(TRACE, "Key: " + String(key) + ", Value: " + String(value) + " stored at address: " + String(startAddress));
+  Logger::trace("Key: " + String(key) + ", Value: " + String(value) + " stored at address: " + String(startAddress));
 }
 
 /**
@@ -270,15 +279,15 @@ bool HY62252A::getValueForKey(const char *keyToFind, char *valueBuffer, uint16_t
   for (uint16_t addr = startAddress; addr < endAddress; addr += 20)
   {                                           // Each key-value pair occupies 20 bytes
     readBlock(addr, (uint8_t *)keyBuffer, 4); // Read key
-    Logger::log(TRACE, "Read key: " + String(keyBuffer));
+    Logger::ultra("Read key: " + String(keyBuffer));
     if (strncmp(keyBuffer, keyToFind, 4) == 0)
     {
-      Logger::log(TRACE, "Key match found at address: " + String(addr));
+      Logger::ultra("Key match found at address: " + String(addr));
       readBlock(addr + 4, (uint8_t *)valueBuffer, 16); // Read value
       return true;                                     // Key found
     }
-    Logger::log(TRACE, "Key mismatch, continuing search...");
+    Logger::ultra("Key mismatch, continuing search...");
   }
-  Logger::log(TRACE, "Key not found in range. Start: " + String(startAddress) + ", End: " + String(endAddress));
+  Logger::ultra("Key not found in range. Start: " + String(startAddress) + ", End: " + String(endAddress));
   return false; // Key not found
 }

@@ -1,4 +1,4 @@
-#ifdef UNO
+#ifdef MOTOR_SHIELD
 
 #include "AFMotorLegacyWrapper.h"
 #include <Arduino.h>

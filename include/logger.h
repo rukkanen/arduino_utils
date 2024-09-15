@@ -9,6 +9,7 @@
  * WARNING: Warning messages
  * ERROR: Error messages
  * TRACE: Absolutely everything
+ * ULTRA: Absolutely everything and even more
  *
  * To configure the log level, change the value of the `logLevel` variable
  */

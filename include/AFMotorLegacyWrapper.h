@@ -1,7 +1,7 @@
 #ifndef AFMOTORLEGACYWRAPPER_H
 #define AFMOTORLEGACYWRAPPER_H
 
-#ifdef UNO
+#ifdef MOTOR_SHIELD
 
 #include <AFMotor.h>
 
