@@ -1,3 +1,12 @@
+# pins
+
+Pins 1-8: Address lines (A0 to A7)
+Pins 9-12, 14-17: Data lines (I/O1 to I/O8)
+Pin 13: GND (Ground)
+Pins 18, 20, 25: Control lines (/CE, /OE, /WE)
+Pins 19, 21-24, 26-27: Address lines (A8 to A14)
+Pin 28: VCC (Power supply)
+
 | **Component**      | **Pin Name**        | **Connected To**              | **Description**                                |
 |--------------------|---------------------|-------------------------------|------------------------------------------------|
 | **Arduino Micro**   | Digital Pin 2       | Shifter1 Pin 14 (SER)          | Data Input for Shifter1                        |
@@ -62,3 +71,66 @@
 |                     | Pin 27 (/WE)        | Arduino Digital Pin 10         | Write Enable                                   |
 |                     | Pin 14 (GND)        | Arduino GND                    | Ground                                         |
 |                     | Pin 28 (VCC)        | Arduino 5V                     | Power                                          |
+
+
+Pin  1: A14   - Address input 14
+Pin  2: A12   - Address input 12
+Pin  3: A7    - Address input 7
+Pin  4: A6    - Address input 6
+Pin  5: A5    - Address input 5
+Pin  6: A4    - Address input 4
+Pin  7: A3    - Address input 3
+Pin  8: A2    - Address input 2
+Pin  9: A1    - Address input 1
+Pin 10: A0    - Address input 0
+Pin 11: I/O1  - Data input/output 1
+Pin 12: I/O2  - Data input/output 2
+Pin 13: I/O3  - Data input/output 3
+Pin 14: VSS   - Ground (0V)
+Pin 15: I/O4  - Data input/output 4
+Pin 16: I/O5  - Data input/output 5
+Pin 17: I/O6  - Data input/output 6
+Pin 18: I/O7  - Data input/output 7
+Pin 19: I/O8  - Data input/output 8
+Pin 20: /CS   - Chip Select (active LOW)
+Pin 21: A10   - Address input 10
+Pin 22: /OE   - Output Enable (active LOW)
+Pin 23: A11   - Address input 11
+Pin 24: A9    - Address input 9
+Pin 25: A8    - Address input 8
+Pin 26: A13   - Address input 13
+Pin 27: /WE   - Write Enable (active LOW)
+Pin 28: VCC   - Power supply (+5V)
+
+Conenctions:
+Arduino D1  -> HY62256A Pin 10 (A0)
+Arduino D2  -> HY62256A Pin 9  (A1)
+Arduino D3  -> HY62256A Pin 8  (A2)
+Arduino D4  -> HY62256A Pin 7  (A3)
+Arduino D5  -> HY62256A Pin 6  (A4)
+Arduino D6  -> HY62256A Pin 5  (A5)
+Arduino D7  -> HY62256A Pin 4  (A6)
+Arduino D8  -> HY62256A Pin 3  (A7)
+Arduino D9  -> HY62256A Pin 25 (A8)
+Arduino D10 -> HY62256A Pin 24 (A9)
+Arduino D11 -> HY62256A Pin 21 (A10)
+Arduino D12 -> HY62256A Pin 23 (A11)
+Arduino D13 -> HY62256A Pin 2  (A12)
+Arduino A0  -> HY62256A Pin 26 (A13)
+Arduino A1  -> HY62256A Pin 1  (A14)
+
+Arduino D14 -> HY62256A Pin 11 (I/O1)
+Arduino D15 -> HY62256A Pin 12 (I/O2)
+Arduino D16 -> HY62256A Pin 13 (I/O3)
+Arduino D17 -> HY62256A Pin 15 (I/O4)
+Arduino D18 -> HY62256A Pin 16 (I/O5)
+Arduino D19 -> HY62256A Pin 17 (I/O6)
+Arduino A2  -> HY62256A Pin 18 (I/O7)
+Arduino A3  -> HY62256A Pin 19 (I/O8)
+
+Arduino A4  -> HY62256A Pin 22 (/OE - Output Enable)
+Arduino A5  -> HY62256A Pin 27 (/WE - Write Enable)
+Arduino D20 -> HY62256A Pin 20 (/CS - Chip Select)
+
+GND         -> HY62256A Pin 14 (VSS - Ground)
+5V          -> HY62256A Pin 28 (VCC - Power Supply)

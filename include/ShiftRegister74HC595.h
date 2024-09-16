@@ -9,6 +9,7 @@ class ShiftRegister74HC595
 public:
   // Constructor
   ShiftRegister74HC595(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin, uint8_t numRegisters = 1);
+  ~ShiftRegister74HC595();
 
   // Set the state of a specific pin
   void setPin(uint8_t pin, bool state);

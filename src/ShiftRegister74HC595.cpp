@@ -19,6 +19,11 @@ ShiftRegister74HC595::ShiftRegister74HC595(uint8_t latchPin, uint8_t clockPin, u
   initRegisters();
 }
 
+ShiftRegister74HC595::~ShiftRegister74HC595()
+{
+  delete[] _registerState;
+}
+
 // Private method to initialize the shift registers
 void ShiftRegister74HC595::initRegisters()
 {
