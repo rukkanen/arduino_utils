@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 | **SRAM Pin Name** | **SRAM Pin Number** | **Arduino Micro Pin** | **Function**     |
 |-------------------|---------------------|-----------------------|------------------|
 | A0                | 1                   | D2                    | Address Line 0   |
@@ -29,3 +30,141 @@
 | GND               | 12, 25              | GND                   | Ground           |
 | VCC               | 28                  | 5V                    | Power Supply     |
  
+=======
+# pins
+
+Pins 1-8: Address lines (A0 to A7)
+Pins 9-12, 14-17: Data lines (I/O1 to I/O8)
+Pin 13: GND (Ground)
+Pins 18, 20, 25: Control lines (/CE, /OE, /WE)
+Pins 19, 21-24, 26-27: Address lines (A8 to A14)
+Pin 28: VCC (Power supply)
+
+| **Component**      | **Pin Name**        | **Connected To**              | **Description**                                |
+|--------------------|---------------------|-------------------------------|------------------------------------------------|
+| **Arduino Micro**   | Digital Pin 2       | Shifter1 Pin 14 (SER)          | Data Input for Shifter1                        |
+|                    | Digital Pin 3       | Shifter1 Pin 11 (SRCLK)        | Shift Clock for Shifter1                       |
+|                    | Digital Pin 4       | Shifter1 Pin 12 (RCLK)         | Latch Clock for Shifter1                       |
+|                    | Digital Pin 5       | Shifter2 Pin 14 (SER)          | Data Input for Shifter2                        |
+|                    | Digital Pin 6       | Shifter2 Pin 11 (SRCLK)        | Shift Clock for Shifter2                       |
+|                    | Digital Pin 7       | Shifter2 Pin 12 (RCLK)         | Latch Clock for Shifter2                       |
+|                    | Digital Pin 8       | SRAM Pin 20 (/CE)              | SRAM Chip Enable                               |
+|                    | Digital Pin 9       | SRAM Pin 22 (/OE)              | SRAM Output Enable                             |
+|                    | Digital Pin 10      | SRAM Pin 27 (/WE)              | SRAM Write Enable                              |
+|                    | GND                 | Shifter1 Pin 8 (GND)           | Ground for Shifter1                            |
+|                    | GND                 | Shifter2 Pin 8 (GND)           | Ground for Shifter2                            |
+|                    | GND                 | SRAM Pin 14 (GND)              | Ground for SRAM                                |
+|                    | VCC (5V)            | Shifter1 Pin 16 (VCC)          | Power for Shifter1                             |
+|                    | VCC (5V)            | Shifter2 Pin 16 (VCC)          | Power for Shifter2                             |
+|                    | VCC (5V)            | SRAM Pin 28 (VCC)              | Power for SRAM                                 |
+| **Shifter1**        | Pin 14 (SER)        | Arduino Digital Pin 2          | Data input from Arduino to Shifter1            |
+|                     | Pin 11 (SRCLK)      | Arduino Digital Pin 3          | Shift clock input for Shifter1                 |
+|                     | Pin 12 (RCLK)       | Arduino Digital Pin 4          | Latch clock input for Shifter1                 |
+|                     | Pin 15 (QA)         | SRAM Pin 1 (A0)                | Address line A0                                |
+|                     | Pin 1 (QB)          | SRAM Pin 2 (A1)                | Address line A1                                |
+|                     | Pin 2 (QC)          | SRAM Pin 3 (A2)                | Address line A2                                |
+|                     | Pin 3 (QD)          | SRAM Pin 4 (A3)                | Address line A3                                |
+|                     | Pin 4 (QE)          | SRAM Pin 5 (A4)                | Address line A4                                |
+|                     | Pin 5 (QF)          | SRAM Pin 6 (A5)                | Address line A5                                |
+|                     | Pin 6 (QG)          | SRAM Pin 7 (A6)                | Address line A6                                |
+|                     | Pin 7 (QH)          | SRAM Pin 8 (A7)                | Address line A7                                |
+|                     | Pin 8 (GND)         | Arduino GND                    | Ground for Shifter1                            |
+|                     | Pin 16 (VCC)        | Arduino 5V                     | Power for Shifter1                             |
+| **Shifter2**        | Pin 14 (SER)        | Arduino Digital Pin 5          | Data input from Arduino to Shifter2            |
+|                     | Pin 11 (SRCLK)      | Arduino Digital Pin 6          | Shift clock input for Shifter2                 |
+|                     | Pin 12 (RCLK)       | Arduino Digital Pin 7          | Latch clock input for Shifter2                 |
+|                     | Pin 15 (QA)         | SRAM Pin 9 (A8)                | Address line A8                                |
+|                     | Pin 1 (QB)          | SRAM Pin 10 (A9)               | Address line A9                                |
+|                     | Pin 2 (QC)          | SRAM Pin 11 (A10)              | Address line A10                               |
+|                     | Pin 3 (QD)          | SRAM Pin 12 (D0)               | Data line D0                                   |
+|                     | Pin 4 (QE)          | SRAM Pin 13 (D1)               | Data line D1                                   |
+|                     | Pin 5 (QF)          | SRAM Pin 15 (D2)               | Data line D2                                   |
+|                     | Pin 6 (QG)          | SRAM Pin 16 (D3)               | Data line D3                                   |
+|                     | Pin 7 (QH)          | SRAM Pin 17 (D4)               | Data line D4                                   |
+|                     | Pin 8 (GND)         | Arduino GND                    | Ground for Shifter2                            |
+|                     | Pin 16 (VCC)        | Arduino 5V                     | Power for Shifter2                             |
+| **HY62256A SRAM**   | Pin 1 (A0)          | Shifter1 Pin 15 (QA)           | Address line A0                                |
+|                     | Pin 2 (A1)          | Shifter1 Pin 1 (QB)            | Address line A1                                |
+|                     | Pin 3 (A2)          | Shifter1 Pin 2 (QC)            | Address line A2                                |
+|                     | Pin 4 (A3)          | Shifter1 Pin 3 (QD)            | Address line A3                                |
+|                     | Pin 5 (A4)          | Shifter1 Pin 4 (QE)            | Address line A4                                |
+|                     | Pin 6 (A5)          | Shifter1 Pin 5 (QF)            | Address line A5                                |
+|                     | Pin 7 (A6)          | Shifter1 Pin 6 (QG)            | Address line A6                                |
+|                     | Pin 8 (A7)          | Shifter1 Pin 7 (QH)            | Address line A7                                |
+|                     | Pin 9 (A8)          | Shifter2 Pin 15 (QA)           | Address line A8                                |
+|                     | Pin 10 (A9)         | Shifter2 Pin 1 (QB)            | Address line A9                                |
+|                     | Pin 11 (A10)        | Shifter2 Pin 2 (QC)            | Address line A10                               |
+|                     | Pin 12 (D0)         | Shifter2 Pin 3 (QD)            | Data line D0                                   |
+|                     | Pin 13 (D1)         | Shifter2 Pin 4 (QE)            | Data line D1                                   |
+|                     | Pin 15 (D2)         | Shifter2 Pin 5 (QF)            | Data line D2                                   |
+|                     | Pin 16 (D3)         | Shifter2 Pin 6 (QG)            | Data line D3                                   |
+|                     | Pin 17 (D4)         | Shifter2 Pin 7 (QH)            | Data line D4                                   |
+|                     | Pin 20 (/CE)        | Arduino Digital Pin 8          | Chip Enable                                    |
+|                     | Pin 22 (/OE)        | Arduino Digital Pin 9          | Output Enable                                  |
+|                     | Pin 27 (/WE)        | Arduino Digital Pin 10         | Write Enable                                   |
+|                     | Pin 14 (GND)        | Arduino GND                    | Ground                                         |
+|                     | Pin 28 (VCC)        | Arduino 5V                     | Power                                          |
+
+
+Pin  1: A14   - Address input 14
+Pin  2: A12   - Address input 12
+Pin  3: A7    - Address input 7
+Pin  4: A6    - Address input 6
+Pin  5: A5    - Address input 5
+Pin  6: A4    - Address input 4
+Pin  7: A3    - Address input 3
+Pin  8: A2    - Address input 2
+Pin  9: A1    - Address input 1
+Pin 10: A0    - Address input 0
+Pin 11: I/O1  - Data input/output 1
+Pin 12: I/O2  - Data input/output 2
+Pin 13: I/O3  - Data input/output 3
+Pin 14: VSS   - Ground (0V)
+Pin 15: I/O4  - Data input/output 4
+Pin 16: I/O5  - Data input/output 5
+Pin 17: I/O6  - Data input/output 6
+Pin 18: I/O7  - Data input/output 7
+Pin 19: I/O8  - Data input/output 8
+Pin 20: /CS   - Chip Select (active LOW)
+Pin 21: A10   - Address input 10
+Pin 22: /OE   - Output Enable (active LOW)
+Pin 23: A11   - Address input 11
+Pin 24: A9    - Address input 9
+Pin 25: A8    - Address input 8
+Pin 26: A13   - Address input 13
+Pin 27: /WE   - Write Enable (active LOW)
+Pin 28: VCC   - Power supply (+5V)
+
+Conenctions:
+Arduino D1  -> HY62256A Pin 10 (A0)
+Arduino D2  -> HY62256A Pin 9  (A1)
+Arduino D3  -> HY62256A Pin 8  (A2)
+Arduino D4  -> HY62256A Pin 7  (A3)
+Arduino D5  -> HY62256A Pin 6  (A4)
+Arduino D6  -> HY62256A Pin 5  (A5)
+Arduino D7  -> HY62256A Pin 4  (A6)
+Arduino D8  -> HY62256A Pin 3  (A7)
+Arduino D9  -> HY62256A Pin 25 (A8)
+Arduino D10 -> HY62256A Pin 24 (A9)
+Arduino D11 -> HY62256A Pin 21 (A10)
+Arduino D12 -> HY62256A Pin 23 (A11)
+Arduino D13 -> HY62256A Pin 2  (A12)
+Arduino A0  -> HY62256A Pin 26 (A13)
+Arduino A1  -> HY62256A Pin 1  (A14)
+
+Arduino D14 -> HY62256A Pin 11 (I/O1)
+Arduino D15 -> HY62256A Pin 12 (I/O2)
+Arduino D16 -> HY62256A Pin 13 (I/O3)
+Arduino D17 -> HY62256A Pin 15 (I/O4)
+Arduino D18 -> HY62256A Pin 16 (I/O5)
+Arduino D19 -> HY62256A Pin 17 (I/O6)
+Arduino A2  -> HY62256A Pin 18 (I/O7)
+Arduino A3  -> HY62256A Pin 19 (I/O8)
+
+Arduino A4  -> HY62256A Pin 22 (/OE - Output Enable)
+Arduino A5  -> HY62256A Pin 27 (/WE - Write Enable)
+Arduino D20 -> HY62256A Pin 20 (/CS - Chip Select)
+
+GND         -> HY62256A Pin 14 (VSS - Ground)
+5V          -> HY62256A Pin 28 (VCC - Power Supply)
+>>>>>>> 0e11b8f (small fixes to HY622 and shiftregister)

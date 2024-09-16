@@ -44,7 +44,7 @@ private:
   void setAddress(uint16_t address);
 
   // Set the data bus to input or output mode.
-  void setDataBusMode(bool mode);
+  void setDataBusMode(uint8_t mode);
 
   // Write data to the data bus.
   void writeDataBus(uint8_t data);

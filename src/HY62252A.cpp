@@ -124,12 +124,12 @@ void HY62252A::setAddress(uint16_t address)
  *
  * @param mode Set as INPUT or OUTPUT.
  */
-void HY62252A::setDataBusMode(bool mode)
+void HY62252A::setDataBusMode(uint8_t mode)
 {
   Logger::log(ULTRA, "setDataBusMode(): " + String(mode));
   for (int i = 0; i < 8; i++)
   {
-    pinMode(_data_pins[i], mode);
+    pinMode(_data_pins[i], mode); // mode will now be 0x0 for INPUT or 0x1 for OUTPUT
   }
 }
 
@@ -178,7 +178,7 @@ void HY62252A::writeByte(uint16_t address, uint8_t data)
 
   digitalWrite(_ce_pin, LOW);
   digitalWrite(_we_pin, LOW);
-  delayMicroseconds(5);
+  delayMicroseconds(15);
   digitalWrite(_we_pin, HIGH);
   digitalWrite(_ce_pin, HIGH);
   // #if LOG_LEVEL >= TRACE
