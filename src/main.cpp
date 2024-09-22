@@ -1,6 +1,3 @@
-#include <Arduino.h>
-#include "HY62252A.h"
-
 void setup()
 {
 }
